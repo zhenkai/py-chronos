@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
-import chronos
+from time import sleep
+from chronos import SimpleChronosSocket
 
 def func(str):
   print str
 
-socket = chronos.SimpleChronosSocket("/1", func)
+socket = SimpleChronosSocket("/chronos", func)
+sleep(1)
+socket.publish("/1/2", 0, "what the heck", 100)
+sleep(1)
 
-sleep(10)
 print "done"
 
