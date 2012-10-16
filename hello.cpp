@@ -1,7 +1,7 @@
 #include <boost/python.hpp>
 #include <string>
 #include <iostream>
-#include "world.cpp"
+#include "world.h"
 
 using namespace boost::python;
 
