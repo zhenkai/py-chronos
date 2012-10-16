@@ -45,22 +45,24 @@ BOOST_PYTHON_MODULE(chronos)
     "A callback function to process Interest"
   );
 
-  class_<SyncAppSocket>("SyncAppSocket", init<const std::string, boost::function< void (const std::vector<MissingDataInfo> &, SyncAppSocket * ) >, boost::function< void ( const std::string &/*prefix*/ ) > >())
-    .def("get_next_seq", &SyncAppSocket::getNextSeq())
-    .def("get_root_digest", &SyncAppSocket::getRootDigest())
-    .def("publish_raw", &SyncAppSocket::publishRaw(const std::string &, uint32_t, const char *, size_t, int))
-    .def("remove", &SyncAppSocket::remove(const std::string &))
-    .def("fetch_raw", &SyncAppSocket::fetchRaw(const std::string &, const SeqNo &, boost::function<void (std::string, const char *buf, size_t len)> ))
+  //class_<SyncAppSocket>("SyncAppSocket", init<const std::string, boost::function< void (const std::vector<MissingDataInfo> &, SyncAppSocket * ) >, boost::function< void ( const std::string &/*prefix*/ ) > >())
+  class_<SyncAppSocket>("SyncAppSocket", init<const std::string, SyncAppSocket::NewDataCallback, SyncAppSocket::RemoveCallback>())
+    .def("get_next_seq", &SyncAppSocket::getNextSeq)
+    .def("get_root_digest", &SyncAppSocket::getRootDigest)
+    //.def("publish_raw", &SyncAppSocket::publishRaw(const std::string &, uint32_t, const char *, size_t, int))
+    .def("publish_raw", &SyncAppSocket::publishRaw)
+    .def("remove", &SyncAppSocket::remove)
+    .def("fetch_raw", &SyncAppSocket::fetchRaw)
     ;
 
-  class_<SeqNo>("SeqNo", init<uint32_t seq>())
-    .def("get_seq", &SyncAppSocket::getSeq())
+  class_<SeqNo>("SeqNo", init<uint32_t>())
+    .def("get_seq", &SeqNo::getSeq)
     ;
   
   class_<MissingDataInfo>("MissingDataInfo")
-    .def_readWrite("prefix", &MissingDataInfo::prefix)
-    .def_readWrite("low", &MissingDataInfo::low)
-    .def_readWrite("high", &MissingDataInfo::high)
+    .def_readwrite("prefix", &MissingDataInfo::prefix)
+    .def_readwrite("low", &MissingDataInfo::low)
+    .def_readwrite("high", &MissingDataInfo::high)
     ;
 
 }
