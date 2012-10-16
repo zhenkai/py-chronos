@@ -48,7 +48,7 @@ public:
 
   bool publishString (std::string prefix, uint32_t session, std::string dataBuffer, int freshness);
 
-  void remove (std::string prefix) {m_syncLogic.remove(prefix);}
+  void remove (std::string prefix) {m_syncLogic->remove(prefix);}
 
   
 private:
@@ -67,7 +67,7 @@ private:
   SequenceLog m_sequenceLog;
   CcnxWrapperPtr m_ccnxHandle;
   std::string m_syncPrefix;
-  SyncLogic      m_syncLogic;
+  boost::shared_ptr<SyncLogic>      m_syncLogic; 
 };
 
 

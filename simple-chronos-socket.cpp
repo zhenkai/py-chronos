@@ -30,13 +30,19 @@ using namespace Sync;
 SimpleChronosSocket::SimpleChronosSocket (string syncPrefix, boost::python::object callbackObject)
   : m_ccnxHandle (CcnxWrapper::Create ())
   , m_callbackObject (callbackObject)
-  , m_syncLogic (syncPrefix,
+  , m_syncLogic (new SyncLogic(syncPrefix,
                  bind(&SimpleChronosSocket::passCallback, this, _1),
-                 bind(&SimpleChronosSocket::nullCallback, this, _1))
+                 bind(&SimpleChronosSocket::nullCallback, this, _1)))
   , m_syncPrefix (syncPrefix)
 {
 }
 
+SimpleChronosSocket::~SimpleChronosSocket()
+{
+  CcnxWrapper::Destroy ();
+}
+
+void
 SimpleChronosSocket::passCallback(std::vector<MissingDataInfo> &v)
 {
   int n = v.size();
@@ -46,11 +52,6 @@ SimpleChronosSocket::passCallback(std::vector<MissingDataInfo> &v)
      interestName << v[i].prefix << "/" << v[i].high.getSession() << "/" << v[i].high.getSeq();
      m_callbackObject(interestName.str());
   }
-}
-
-SimpleChronosSocket::~SimpleChronosSocket()
-{
-  CcnxWrapper::Destroy ();
 }
 
 bool 
@@ -64,7 +65,8 @@ SimpleChronosSocket::publishString ( string prefix, uint32_t session,  string da
   SeqNo s(session, sequence + 1);
   m_sequenceLog[prefix] = s;
 
-  m_syncLogic.addLocalNames (prefix, session, sequence);
+  m_syncLogic->addLocalNames (prefix, session, sequence);
+  return true;
 }
 
 uint32_t
