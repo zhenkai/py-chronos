@@ -27,7 +27,7 @@ using namespace boost;
 using namespace Sync;
 
 
-SimpleChronosSocket::SimpleChronosSocket (const string syncPrefix, boost::python::object callbackObject)
+SimpleChronosSocket::SimpleChronosSocket (string syncPrefix, boost::python::object callbackObject)
   : m_ccnxHandle (CcnxWrapper::Create ())
   , m_callbackObject (callbackObject)
   , m_syncLogic (syncPrefix,
@@ -37,7 +37,7 @@ SimpleChronosSocket::SimpleChronosSocket (const string syncPrefix, boost::python
 {
 }
 
-SimpleChronosSocket::passCallback(const std::vector<MissingDataInfo> &v)
+SimpleChronosSocket::passCallback(std::vector<MissingDataInfo> &v)
 {
   int n = v.size();
   for (int i = 0; i < n; i++)
@@ -48,26 +48,13 @@ SimpleChronosSocket::passCallback(const std::vector<MissingDataInfo> &v)
   }
 }
 
-SimpleChronosSocket::SimpleChronosSocket(const SimpleChronosSocket *other) 
-{
-  if (other == NULL)
-  {
-    this = NULL;
-  }
-  else
-  {
-    this = new SimpleChronosSocket(other->syncPrefix, other->m_callbackObject);
-  }
-}
-
 SimpleChronosSocket::~SimpleChronosSocket()
 {
-  //CcnxWrapper::Destroy ();
-  //CcnxWrapper::Create ();
+  CcnxWrapper::Destroy ();
 }
 
 bool 
-SimpleChronosSocket::publishString (const string prefix, uint32_t session, const string dataBuffer, int freshness)
+SimpleChronosSocket::publishString ( string prefix, uint32_t session,  string dataBuffer, int freshness)
 {
   uint32_t sequence = getNextSeq(prefix, session);
   ostringstream contentNameWithSeqno;
@@ -81,7 +68,7 @@ SimpleChronosSocket::publishString (const string prefix, uint32_t session, const
 }
 
 uint32_t
-SimpleChronosSocket::getNextSeq (const string &prefix, uint32_t session)
+SimpleChronosSocket::getNextSeq (string &prefix, uint32_t session)
 {
   SequenceLog::iterator i = m_sequenceLog.find (prefix);
 

@@ -43,23 +43,22 @@ using namespace Sync;
 class SimpleChronosSocket
 {
 public:
-  SimpleChronosSocket (const std::string syncPrefix, boost::python::object callbackObject);
-  SimpleChronosSocket (const SimpleChronosSocket *);
+  SimpleChronosSocket (std::string syncPrefix, boost::python::object callbackObject);
   ~SimpleChronosSocket ();
 
-  bool publishString (const std::string prefix, uint32_t session, const std::string dataBuffer, int freshness);
+  bool publishString (std::string prefix, uint32_t session, std::string dataBuffer, int freshness);
 
-  void remove (const std::string prefix) {m_syncLogic.remove(prefix);}
+  void remove (std::string prefix) {m_syncLogic.remove(prefix);}
 
   
 private:
   void 
-  passCallback(const std::vector<MissingDataInfo> &v); 
+  passCallback( std::vector<MissingDataInfo> &v); 
 
   void
-  nullCallback(const std::string){}
+  nullCallback(std::string){}
   uint32_t
-  getNextSeq (const std::string &prefix, uint32_t session);
+  getNextSeq (std::string &prefix, uint32_t session);
 
 
 private:

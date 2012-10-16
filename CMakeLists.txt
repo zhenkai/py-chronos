@@ -1,4 +1,4 @@
-project(chronos)
+project(hello)
 cmake_minimum_required(VERSION 2.8.3)
 FIND_PACKAGE(PythonInterp)
 FIND_PACKAGE(PythonLibs REQUIRED)
@@ -11,7 +11,8 @@ LINK_LIBRARIES(${Boost_LIBRARIES} ${PYTHON_LIBRARIES}) # Deprecated but so conve
 INCLUDE_DIRECTORIES(/usr/local/include/sync)
 LINK_LIBRARIES(/usr/local/lib)
 
-PYTHON_ADD_MODULE(chronos chronos.cpp simple-chronos-socket.cpp)
+PYTHON_ADD_MODULE(chronos chronos.cpp)
+#PYTHON_ADD_MODULE(hello world.cpp)
 FILE(COPY chronos.py DESTINATION .)
 ADD_TEST(. chronos.py)
 
