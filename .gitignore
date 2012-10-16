@@ -3,3 +3,4 @@ CMakeFiles
 Makefile
 cmake_install*
 CTest*
+*.so

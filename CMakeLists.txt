@@ -11,8 +11,8 @@ LINK_LIBRARIES(${Boost_LIBRARIES} ${PYTHON_LIBRARIES}) # Deprecated but so conve
 INCLUDE_DIRECTORIES(/usr/local/include/sync)
 LINK_LIBRARIES(/usr/local/lib)
 
-PYTHON_ADD_MODULE(chronos chronos.cpp)
-#PYTHON_ADD_MODULE(hello world.cpp)
+#PYTHON_ADD_MODULE(chronos chronos.cpp)
+PYTHON_ADD_MODULE(hello hello.cpp)
 FILE(COPY chronos.py DESTINATION .)
 ADD_TEST(. chronos.py)
 
