@@ -21,6 +21,7 @@
  */
 
 #include "simple-chronos-socket.h"
+#include <vector>
 
 using namespace std;
 using namespace boost;
@@ -31,27 +32,21 @@ SimpleChronosSocket::SimpleChronosSocket (string syncPrefix, boost::python::obje
   : m_ccnxHandle (CcnxWrapper::Create ())
   , m_callbackObject (callbackObject)
   , m_syncLogic (new SyncLogic(syncPrefix,
-                 bind(&SimpleChronosSocket::passCallback, this, _1),
-                 bind(&SimpleChronosSocket::nullCallback, this, _1)))
-  , m_syncPrefix (syncPrefix)
+                 bind(&SimpleChronosSocket::passCallback, this, _1)))
 {
+  cout << "Creating SimpleChronosSocket" << std::endl;
 }
 
 SimpleChronosSocket::~SimpleChronosSocket()
 {
+  cout << "Destroying SimpleChronosSocket" << std::endl;
   CcnxWrapper::Destroy ();
 }
 
 void
-SimpleChronosSocket::passCallback(std::vector<MissingDataInfo> &v)
+SimpleChronosSocket::passCallback(std::string name)
 {
-  int n = v.size();
-  for (int i = 0; i < n; i++)
-  {
-     ostringstream interestName;
-     interestName << v[i].prefix << "/" << v[i].high.getSession() << "/" << v[i].high.getSeq();
-     m_callbackObject(interestName.str());
-  }
+   m_callbackObject(name);
 }
 
 bool 

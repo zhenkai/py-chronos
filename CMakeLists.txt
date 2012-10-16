@@ -9,10 +9,9 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS})
 LINK_LIBRARIES(${Boost_LIBRARIES} ${PYTHON_LIBRARIES}) # Deprecated but so convenient!
 
 INCLUDE_DIRECTORIES(/usr/local/include/sync)
-LINK_LIBRARIES(/usr/local/lib)
+LINK_LIBRARIES(/usr/local/lib -lsync)
 
-#PYTHON_ADD_MODULE(hello hello.cpp world.cpp)
 PYTHON_ADD_MODULE(chronos chronos.cpp simple-chronos-socket.cpp)
-#FILE(COPY chronos.py DESTINATION .)
-#ADD_TEST(. chronos.py)
+FILE(COPY chronos.py DESTINATION .)
+ADD_TEST(. chronos.py)
 

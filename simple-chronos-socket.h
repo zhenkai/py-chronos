@@ -53,10 +53,8 @@ public:
   
 private:
   void 
-  passCallback( std::vector<MissingDataInfo> &v); 
+  passCallback( std::string name); 
 
-  void
-  nullCallback(std::string){}
   uint32_t
   getNextSeq (std::string &prefix, uint32_t session);
 
@@ -66,7 +64,6 @@ private:
   boost::python::object m_callbackObject;
   SequenceLog m_sequenceLog;
   CcnxWrapperPtr m_ccnxHandle;
-  std::string m_syncPrefix;
   boost::shared_ptr<SyncLogic>      m_syncLogic; 
 };
 
