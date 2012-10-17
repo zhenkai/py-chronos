@@ -1,0 +1,5 @@
+A simple binding for libsync (chronos)
+
+Should achieve basic function of libsync ('s SyncAppSocket). A key difference is: 
+while normal libsync provides a vector of MissingDataInfo as the input the update callback (based on which the callback may decide what to do with the missing info), this binding assumes the update callback processes MissingDataInfo on spot (and only fetches the latest data for each branch). This is kind of specially suited for the usage of this binding I'm expecting (in the webrtc application to maintain a list of participants, where the data to sync is the SDP-like description of each participants, and only the latest description is meaningful).
+
