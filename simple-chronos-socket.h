@@ -49,11 +49,11 @@ public:
   bool publishString (std::string prefix, uint32_t session, std::string dataBuffer, int freshness);
 
   void remove (std::string prefix) {m_syncLogic->remove(prefix);}
+  void 
+  passCallback( std::string name); 
 
   
 private:
-  void 
-  passCallback( std::string name); 
 
   uint32_t
   getNextSeq (std::string &prefix, uint32_t session);
@@ -67,5 +67,50 @@ private:
   boost::shared_ptr<SyncLogic>      m_syncLogic; 
 };
 
+/**
+ * Somehow, there is a stupid rule that you MUST NOT touch any python code, or python data or call
+ * into the interpreter while not holding the GIL. Otherwise, it will cause the interpreter to crash.
+ * A thread not currently holding GIL can acquire it, and make calls into python. This can be a 
+ * thread that released the GIL earlier, or one that started in c++ and never had GIL.
+ * This is the RAII class for that.
+ * In our case, we need to call python function from ccnx thread, which is started in C++ and never had the GIL.
+ */
+class AcquireGIL
+{
+  public:
+    inline AcquireGIL()
+    {
+      state = PyGILState_Ensure();
+    }
+
+    inline ~AcquireGIL()
+    {
+      PyGILState_Release(state);
+    }
+  private:
+    PyGILState_STATE state;
+};
+
+/**
+ * Just in case we need it in the future, this is the reverse RAII
+ * If we need to do stuff in C++ for long time, it is required to release GIL, or otherwise the whole interpreter
+ * will be freezed during the C++ call
+ *
+ *
+ class ReleaseGIL
+ {
+   public:
+    inline ReleaseGIL()
+    {
+      save_state = PyEval_SaveThread();
+    }
+    inline ~ReleaseGIL()
+    {
+      PyEval_RestoreThread(save_state);
+    }
+  private:
+    PyThreadState *save_state;
+ };
+ */
 
 #endif // SIMPLE_CHRONOS_SOCKET_H
