@@ -8,7 +8,7 @@ def func(str):
 
 socket = SimpleChronosSocket("/chronos", func)
 sleep(1)
-socket.publish("/1/2", 0, "what the heck", 100)
+socket.publish_string("/1/2", 0, "what the heck", 100)
 sleep(1)
 
 print "done"
