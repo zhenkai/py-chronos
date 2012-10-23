@@ -35,7 +35,6 @@ SimpleChronosSocket::SimpleChronosSocket (string syncPrefix, boost::python::obje
                  bind(&SimpleChronosSocket::passCallback, this, _1)))
 {
   cout << "Creating SimpleChronosSocket" << std::endl;
-  m_callbackObject("callback in constructor");
 }
 
 SimpleChronosSocket::~SimpleChronosSocket()
@@ -47,7 +46,6 @@ void
 SimpleChronosSocket::passCallback(std::string name)
 {
   AcquireGIL lock;
-  cout << "Now we want to invoke this function again in call wrapper with arg: " << name << endl;
   m_callbackObject(name);
 }
 
