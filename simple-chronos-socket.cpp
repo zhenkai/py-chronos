@@ -29,7 +29,7 @@ using namespace Sync;
 
 
 SimpleChronosSocket::SimpleChronosSocket (string syncPrefix, boost::python::object callbackObject)
-  : m_ccnxHandle (CcnxWrapper::Create ())
+  : m_ccnxHandle (new CcnxWrapper())
   , m_callbackObject (callbackObject)
   , m_syncLogic (new SyncLogic(syncPrefix,
                  bind(&SimpleChronosSocket::passCallback, this, _1)))
@@ -40,7 +40,6 @@ SimpleChronosSocket::SimpleChronosSocket (string syncPrefix, boost::python::obje
 SimpleChronosSocket::~SimpleChronosSocket()
 {
   cout << "Destroying SimpleChronosSocket" << std::endl;
-  CcnxWrapper::Destroy ();
 }
 
 void
