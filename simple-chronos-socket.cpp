@@ -49,6 +49,12 @@ SimpleChronosSocket::passCallback(std::string name)
   m_callbackObject(name);
 }
 
+void 
+SimpleChronosSocket::stop()
+{
+  m_syncLogic->stop();
+}
+
 bool 
 SimpleChronosSocket::publishString ( string prefix, uint32_t session,  string dataBuffer, int freshness)
 {

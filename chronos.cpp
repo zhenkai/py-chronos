@@ -14,5 +14,6 @@ BOOST_PYTHON_MODULE(chronos)
     .def("publish_string", &SimpleChronosSocket::publishString)
     .def("remove", &SimpleChronosSocket::remove)
     .def("callback", &SimpleChronosSocket::passCallback)
+    .def("stop", &SimpleChronosSocket::stop)
   ;
 }
