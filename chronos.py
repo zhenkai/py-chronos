@@ -14,5 +14,7 @@ if __name__ == '__main__':
   socket2 = SimpleChronosSocket("/chronos", func)
 
   sleep(1)
+  socket.stop()
+  socket2.stop()
   print "done"
 

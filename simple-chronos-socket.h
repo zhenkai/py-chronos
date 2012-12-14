@@ -24,11 +24,11 @@
 #define SIMPLE_CHRONOS_SOCKET_H
 
 #include <boost/python.hpp>
-#include <sync-logic.h>
+#include <sync/sync-logic.h>
 #include <boost/function.hpp>
 #include <boost/unordered_map.hpp>
-#include <sync-seq-no.h>
-#include <sync-ccnx-wrapper.h>
+#include <sync/sync-seq-no.h>
+#include <sync/sync-ccnx-wrapper.h>
 #include <utility>
 #include <map>
 #include <vector>
